@@ -49,14 +49,17 @@ public class Film {
 
     //When a user rates a film out of 10 their rating is added to the total and the number of ratings is increased
     public void addRating(int rating) {
-        totalRatings += rating;
-        numRatings++;
+        //Make sure that ratings can only be out of 10
+        if (rating >= 0 && rating <= 10) {
+            totalRatings += rating;
+            numRatings++;
+        }
     }
 
     //Calculate the total
     public double calculateRating() {
         if (numRatings == 0) {
-            return 0; //Don't divide by 0 the computer will explode
+            return 0; //Don't divide by 0 or the computer will explode
         }
         return (double) totalRatings / numRatings;
     }

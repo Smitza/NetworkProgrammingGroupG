@@ -1,6 +1,4 @@
-package business;
-
-import film_service.User;
+package film_service.business;
 import java.util.ArrayList;
 public class UserManager {
 private final ArrayList<User> userList = new ArrayList<User>();
@@ -40,7 +38,6 @@ public ArrayList<User> searchByUsername(String username)
     User u2= new User("E10","GGs237", false);
     User u3 = new User("FVGhost","Function21", true);
     User u4 = new User("JaketheKuza","Yakuza23", true);
-
     }
 }
 

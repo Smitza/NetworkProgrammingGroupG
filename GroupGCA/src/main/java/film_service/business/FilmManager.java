@@ -7,6 +7,9 @@ public class FilmManager {
 
     private final ArrayList<Film> films = new ArrayList<Film>();
 
+    public FilmManager(){
+        bootstrapFilmList();
+    }
 
     public boolean addFilm(Film film) {
         // Check if a film with the same title already exists
@@ -62,6 +65,25 @@ public class FilmManager {
             }
         }
         return false;
+    }
+
+    private void bootstrapFilmList(){
+        Film f1 = new Film("Kung Fu Panda 4", "Animated");
+        f1.addRating(6);
+        films.add(f1);
+        Film f2 = new Film("Spider-Man: Beyond the Spider-Verse", "Animated");
+        f2.addRating(10);
+        films.add(f2);
+        Film f3 = new Film("Drive", "Action");
+        f3.addRating(7);
+        films.add(f3);
+        Film f4 = new Film("Finding Nemo", "Adventure");
+        f4.addRating(9);
+        films.add(f4);
+        Film f5 = new Film("The Shining", "Horror");
+        f5.addRating(8);
+        films.add(f5);
+
     }
 
 

@@ -16,4 +16,18 @@ public boolean addUser(String username, String password, boolean isAdmin) {
         return true;
     }
 }
+
+public ArrayList<User> searchByUsername(String username)
+{
+    ArrayList<User>check = new ArrayList<User>();
+
+    for(User u : userList)
+    {
+        if(u.getUsername().equalsIgnoreCase(username))
+        {
+            check.add(u);
+        }
+    }
+    return check;
+}
 }

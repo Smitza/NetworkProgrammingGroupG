@@ -3,8 +3,9 @@ import java.util.ArrayList;
 public class UserManager {
     private final ArrayList<User> userList = new ArrayList<User>();
 
-    private UserManager() {
+    public UserManager() {
         bootstrapUserList();
+
     }
 
     public boolean addUser(String username, String password, boolean isAdmin) {
@@ -30,7 +31,7 @@ public class UserManager {
         return check;
     }
 
-    public void bootstrapUserList() {
+    private void bootstrapUserList() {
 
         User u1 = new User("BillyBob321", "BillyBobGGnoree", false);
         if (u1 != null) userList.add(u1);

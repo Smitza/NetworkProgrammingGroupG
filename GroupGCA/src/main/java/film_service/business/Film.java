@@ -1,18 +1,18 @@
-package film_service;
+package film_service.business;
 
 import java.util.Objects;
 
 public class Film {
     private String title;
     private String genre;
-    private int totalRatings;
     private int numRatings;
+    private int totalRatings;
 
-    public Film(String title, String genre, int totalRatings, int numRatings) {
+    public Film(String title, String genre) {
         this.title = title;
         this.genre = genre;
-        this.totalRatings = totalRatings;
-        this.numRatings = numRatings;
+        this.totalRatings = 0;
+        this.numRatings = 0;
     }
 
     public String getTitle() {
@@ -47,6 +47,20 @@ public class Film {
         this.numRatings = numRatings;
     }
 
+    //When a user rates a film out of 10 their rating is added to the total and the number of ratings is increased
+    public void addRating(int rating) {
+        totalRatings += rating;
+        numRatings++;
+    }
+
+    //Calculate the total
+    public double calculateRating() {
+        if (numRatings == 0) {
+            return 0; //Don't divide by 0 the computer will explode
+        }
+        return (double) totalRatings / numRatings;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,8 +69,4 @@ public class Film {
         return Objects.equals(title, film.title);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, genre, totalRatings, numRatings);
-    }
 }

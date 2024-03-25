@@ -1,4 +1,4 @@
-package film_service;
+package film_service.business;
 
 import java.util.Objects;
 

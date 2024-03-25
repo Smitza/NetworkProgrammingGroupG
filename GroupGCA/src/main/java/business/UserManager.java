@@ -4,6 +4,10 @@ import film_service.User;
 import java.util.ArrayList;
 public class UserManager {
 private final ArrayList<User> userList = new ArrayList<User>();
+
+public UserManager() {
+    bootstrapUserList();
+}
 public boolean addUser(String username, String password, boolean isAdmin) {
 
     User name = new User(username, password, isAdmin);
@@ -30,4 +34,13 @@ public ArrayList<User> searchByUsername(String username)
     }
     return check;
 }
+    public void bootstrapUserList() {
+
+    User u1 = new User("BillyBob321","BillyBobGGnoree", false);
+    User u2= new User("E10","GGs237", false);
+    User u3 = new User("FVGhost","Function21", true);
+    User u4 = new User("JaketheKuza","Yakuza23", true);
+
+    }
 }
+

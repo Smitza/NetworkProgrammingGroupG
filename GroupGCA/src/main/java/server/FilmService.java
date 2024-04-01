@@ -5,7 +5,15 @@ public class FilmService {
     public static final String HOST = "localhost";
     public static final int PORT = 41235;
 
-    // Protocol Commands
+    // Protocol Requests
+    public static final String REGISTER = "register";
+    public static final String LOGIN = "login";
+    public static final String LOGOUT = "logout";
+    public static final String RATE = "RATE";
+    public static final String SEARCHNAME = "searchByName";
+    public static final String SEARCHGENRE = "searchByGenre";
+
+    // Protocol Responses
     public static final String ADDED = "ADDED";
     public static final String REJECTED = "REJECTED";
     public static final String SUCCESSADMIN = "SUCCESS_ADMIN";
@@ -16,6 +24,7 @@ public class FilmService {
     public static final String INVALIDRATING = "INVALID_RATING_SUPPLIED";
     public static final String NOLOGIN = "NOT_LOGGED_IN";
     public static final String NOMATCH = "NO_MATCH_FOUND";
+    public static final String INVALID = "INVALID_REQUEST";
 
     // DELIMITER
     public static final String DELIMITER = "%%";

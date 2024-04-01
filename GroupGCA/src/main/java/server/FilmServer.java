@@ -1,5 +1,7 @@
 package server;
 
+import film_service.business.UserManager;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.BindException;
@@ -8,6 +10,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class FilmServer {
+
+    private static final UserManager userManager = new UserManager();
 
     public static void main(String[] args) {
         try(ServerSocket listeningSocket = new ServerSocket(FilmService.PORT)) {
@@ -63,7 +67,20 @@ public class FilmServer {
     }
 
     private static String register(String[] components) {
-        String response = null;
+        String response;
+        if (components.length < 3) {
+            response = FilmService.REJECTED; // Invalid request
+        } else {
+            String username = components[1];
+            String password = components[2];
+            boolean registrationResult = userManager.addUser(username, password, false);
+
+            if (registrationResult) {
+                response = FilmService.ADDED; // User registered successfully
+            } else {
+                response = FilmService.REJECTED; // Registration failed (e.g., username already exists)
+            }
+        }
         return response;
     }
 
@@ -73,8 +90,7 @@ public class FilmServer {
     }
 
     private static String logout(String[] components) {
-        String response = null;
-        return response;
+        return FilmService.LOGOUTOUT;
     }
 
     private static String rate(String[] components) {

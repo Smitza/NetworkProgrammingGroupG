@@ -31,6 +31,7 @@ public class UserManager {
         return check;
     }
 
+
     private void bootstrapUserList() {
 
         User u1 = new User("BillyBob321", "BillyBobGGnoree", false);
@@ -43,13 +44,7 @@ public class UserManager {
         if (u4 != null) userList.add(u4);
     }
 
-    private User createUser(String username, String password, boolean isAdmin) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            System.err.println("Invalid username or password for user creation: " + username);
-            return null;
-        }
-        return new User(username, password, isAdmin);
-    }
+
 }
 
 

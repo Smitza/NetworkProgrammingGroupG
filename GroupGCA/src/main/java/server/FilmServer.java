@@ -121,13 +121,19 @@ public class FilmServer {
             String name = components[1];
             String request = FilmService.SEARCHNAME + FilmService.DELIMITER + name;
 
-
         }
         return response;
     }
 
     private static String searchGenre(String[] components) {
         String response = null;
+        if(components.length < 2) {
+            return FilmService.REJECTED; // invalid response format
+        } else {
+            String genre = components[1];
+            String request = FilmService.SEARCHGENRE + FilmService.DELIMITER + genre;
+
+        }
         return response;
     }
 }

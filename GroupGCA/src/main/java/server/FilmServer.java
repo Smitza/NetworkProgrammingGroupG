@@ -85,7 +85,22 @@ public class FilmServer {
     }
 
     private static String login(String[] components) {
-        String response = null;
+        String response;
+
+        if(components.length < 3) {
+            response = FilmService.REJECTED; // Invalid request
+        } else {
+            String username = components[1];
+            String password = components[2];
+            boolean loginResult = userManager.addUser(username, password, false);
+
+            if (loginResult) {
+                response = FilmService.SUCCESS; // user have been logged in successfully
+            } else {
+                response = FilmService.FAILED; // login failed user have not been logged in succesfully
+            }
+        }
+
         return response;
     }
 
@@ -100,6 +115,14 @@ public class FilmServer {
 
     private static String searchName(String[] components) {
         String response = null;
+        if(components.length < 2){
+            response = FilmService.REJECTED; // invalid response format
+        } else {
+            String name = components[1];
+            String request = FilmService.SEARCHNAME + FilmService.DELIMITER + name;
+
+
+        }
         return response;
     }
 

@@ -127,9 +127,17 @@ public class FilmServer {
 
         } else {
             String genre = components[1];
-           List filmResult = filmManager.searchByGenre(genre);
-            if (filmResult != null) {
-                response = filmResult.getTitle() + FilmService.DELIMITER + filmResult.getGenre() + FilmService.DELIMITER + filmResult.getTotalRatings() + FilmService.DELIMITER + filmResult.getNumRatings();
+           List<Film> filmResult = filmManager.searchByGenre(genre);
+            if (!filmResult.isEmpty()) {
+                StringBuilder results = new StringBuilder();
+                for (Film film : filmResult) {
+                    results.append(film.getTitle()).append(FilmService.DELIMITER)
+                            .append(film.getGenre()).append(FilmService.DELIMITER)
+                            .append(film.getTotalRatings()).append(FilmService.DELIMITER)
+                            .append(film.getNumRatings()).append(" ");
+
+                }
+                response = results.toString();
             } else {
                 response = FilmService.NOMATCH;
             }

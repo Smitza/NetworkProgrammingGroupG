@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,8 +19,8 @@ public class FilmServer {
     private static final FilmManager filmManager = new FilmManager();
 
     public static void main(String[] args) {
-        try(ServerSocket listeningSocket = new ServerSocket(FilmService.PORT)) {
-            while(true) {
+        try (ServerSocket listeningSocket = new ServerSocket(FilmService.PORT)) {
+            while (true) {
                 Socket dataSocket = listeningSocket.accept();
                 handleClientSession(dataSocket);
             }
@@ -34,30 +35,30 @@ public class FilmServer {
 
     public static void handleClientSession(Socket dataSocket) {
         try (Scanner input = new Scanner(dataSocket.getInputStream());
-            PrintWriter output = new PrintWriter(dataSocket.getOutputStream())) {
+             PrintWriter output = new PrintWriter(dataSocket.getOutputStream())) {
             boolean validSession = true;
-            while(validSession){
+            while (validSession) {
                 String message = input.nextLine();
-                System.out.println("Message received: "+ message);
-                String [] components = message.split(FilmService.DELIMITER);
+                System.out.println("Message received: " + message);
+                String[] components = message.split(FilmService.DELIMITER);
                 String response = null;
-                switch(components[0]){
-                    case(FilmService.REGISTER):
+                switch (components[0]) {
+                    case (FilmService.REGISTER):
                         response = register(components);
                         break;
-                    case(FilmService.LOGIN):
+                    case (FilmService.LOGIN):
                         response = login(components);
                         break;
-                    case(FilmService.LOGOUT):
+                    case (FilmService.LOGOUT):
                         response = logout(components);
                         break;
-                    case(FilmService.RATE):
+                    case (FilmService.RATE):
                         response = rate(components);
                         break;
-                    case(FilmService.SEARCHNAME):
+                    case (FilmService.SEARCHNAME):
                         response = searchName(components);
                         break;
-                    case(FilmService.SEARCHGENRE):
+                    case (FilmService.SEARCHGENRE):
                         response = searchGenre(components);
                         break;
                     default:
@@ -105,12 +106,12 @@ public class FilmServer {
 
     private static String searchName(String[] components) {
         String response;
-        if(components.length !=2) {
+        if (components.length != 2) {
             response = FilmService.INVALID;
         } else {
             String title = components[1];
             Film filmResult = filmManager.searchByTitle(title);
-            if(filmResult != null) {
+            if (filmResult != null) {
                 response = filmResult.getTitle() + FilmService.DELIMITER + filmResult.getGenre() + FilmService.DELIMITER + filmResult.getTotalRatings() + FilmService.DELIMITER + filmResult.getNumRatings();
             } else {
                 response = FilmService.NOMATCH;
@@ -126,8 +127,12 @@ public class FilmServer {
 
         } else {
             String genre = components[1];
-
-            for (Film film : FilmService.
+           List filmResult = filmManager.searchByGenre(genre);
+            if (filmResult != null) {
+                response = filmResult.getTitle() + FilmService.DELIMITER + filmResult.getGenre() + FilmService.DELIMITER + filmResult.getTotalRatings() + FilmService.DELIMITER + filmResult.getNumRatings();
+            } else {
+                response = FilmService.NOMATCH;
+            }
         }
         return response;
     }

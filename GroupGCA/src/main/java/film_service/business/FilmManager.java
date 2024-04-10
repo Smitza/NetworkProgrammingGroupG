@@ -44,14 +44,14 @@ public class FilmManager {
 
     public boolean rateFilm(String title, int rating) {
         Film film = searchByTitle(title);
-        boolean foundFilm;
+        boolean rated;
         if (film != null) {
-            foundFilm = true;
             film.addRating(rating); // Add rating to the film if found
+            rated = true;
         } else {
-            foundFilm = false;
+            rated = false;
         }
-        return foundFilm;
+        return  rated;
     }
 
     public double getFilmRating(String title) {

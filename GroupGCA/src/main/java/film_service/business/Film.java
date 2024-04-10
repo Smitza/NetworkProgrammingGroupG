@@ -72,4 +72,14 @@ public class Film {
         return Objects.equals(title, film.title);
     }
 
+    @Override
+    public String toString() {
+        return "Film{" +
+                "title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", totalRatings=" + totalRatings +
+                ", numRatings=" + numRatings +
+                '}';
+    }
+
 }

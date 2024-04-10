@@ -5,6 +5,7 @@ public class UserManager {
 
     public UserManager() {
         bootstrapUserList();
+
     }
 
     public boolean addUser(String username, String password, boolean isAdmin) {
@@ -19,15 +20,6 @@ public class UserManager {
         }
     }
 
-    public boolean authenticateUser(String username, String password) {
-        for (User user : userList) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public ArrayList<User> searchByUsername(String username) {
         ArrayList<User> check = new ArrayList<User>();
 
@@ -37,6 +29,15 @@ public class UserManager {
             }
         }
         return check;
+    }
+
+    public boolean authenticateUser(String username, String password) {
+        for (User user : userList) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -42,11 +42,16 @@ public class FilmManager {
         return genreFilms; // Return a list of films with the specified genre
     }
 
-    public void rateFilm(String title, int rating) {
+    public boolean rateFilm(String title, int rating) {
         Film film = searchByTitle(title);
+        boolean foundFilm;
         if (film != null) {
+            foundFilm = true;
             film.addRating(rating); // Add rating to the film if found
+        } else {
+            foundFilm = false;
         }
+        return foundFilm;
     }
 
     public double getFilmRating(String title) {

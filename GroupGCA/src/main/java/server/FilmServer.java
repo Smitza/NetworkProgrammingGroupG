@@ -2,6 +2,7 @@ package server;
 
 import film_service.business.Film;
 import film_service.business.FilmManager;
+import film_service.business.User;
 import film_service.business.UserManager;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +18,8 @@ public class FilmServer {
 
     private static final UserManager userManager = new UserManager();
     private static final FilmManager filmManager = new FilmManager();
+    private static boolean loggedin = false;
+
 
     public static void main(String[] args) {
         try(ServerSocket listeningSocket = new ServerSocket(FilmService.PORT)) {
@@ -34,7 +38,7 @@ public class FilmServer {
 
     public static void handleClientSession(Socket dataSocket) {
         try (Scanner input = new Scanner(dataSocket.getInputStream());
-            PrintWriter output = new PrintWriter(dataSocket.getOutputStream())) {
+             PrintWriter output = new PrintWriter(dataSocket.getOutputStream())) {
             boolean validSession = true;
             while(validSession){
                 String message = input.nextLine();
@@ -63,16 +67,18 @@ public class FilmServer {
                     default:
                         response = FilmService.INVALID;
                 }
+                output.println(response);
+                output.flush();
             }
         } catch (IOException e) {
-            System.out.println("An IOException occured when trying to communicate with: " + dataSocket.getInetAddress() + ":" + dataSocket.getPort());
+            System.out.println("An IOException occurred when trying to communicate with: " + dataSocket.getInetAddress() + ":" + dataSocket.getPort());
             System.out.println(e.getMessage());
         }
     }
 
     private static String register(String[] components) {
         String response;
-        if (components.length < 3) {
+        if (components.length < 2) {
             response = FilmService.REJECTED; // Invalid request
         } else {
             String username = components[1];
@@ -90,16 +96,58 @@ public class FilmServer {
 
     private static String login(String[] components) {
         String response;
+        if  (components.length < 2) {
+            response = FilmService.REJECTED;
+        } else {
+            String username = components[1];
+            String password = components[2];
+            boolean isUser = userManager.authenticateUser(username, password);
+            if(isUser){
+                response = FilmService.SUCCESSUSER;
+                loggedin = true;
+            } else {
+                response = FilmService.FAILED;
+            }
+        }
 
         return response;
     }
 
     private static String logout(String[] components) {
-        return FilmService.LOGOUTOUT;
+        String response = null;
+        if(components.length != 2) {
+            response = FilmService.LOGOUT;
+            loggedin = false;
+        }
+        return response;
     }
 
     private static String rate(String[] components) {
-        String response = null;
+        String response;
+        if (components.length < 2) {
+            response = FilmService.REJECTED;
+        } else {
+            String title = components[1];
+            try {
+                int rating = Integer.parseInt(components[2]);
+                if (rating < 0 || rating > 10) {
+                    response = FilmService.INVALIDRATING;
+                } else {
+                    if (loggedin) {
+                        boolean rated = filmManager.rateFilm(title, rating);
+                        if (rated) {
+                            response = FilmService.SUCCESS;
+                        } else {
+                            response = FilmService.INVALIDRATING;
+                        }
+                    } else {
+                        response = FilmService.NOLOGIN;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                response = FilmService.INVALIDRATING;
+            }
+        }
         return response;
     }
 
@@ -120,14 +168,19 @@ public class FilmServer {
     }
 
     private static String searchGenre(String[] components) {
-        String response;
+        String response = null;
         if (components.length != 2) {
             response = FilmService.INVALID;
-
         } else {
             String genre = components[1];
-
-            for (Film film : FilmService.
+            List<Film> resultList = filmManager.searchByGenre(genre);
+            if (!resultList.isEmpty()) {
+                for(Film filmResult : resultList) {
+                    response = filmResult.getTitle() + FilmService.DELIMITER + filmResult.getGenre() + FilmService.DELIMITER + filmResult.getTotalRatings() + FilmService.DELIMITER + filmResult.getNumRatings();
+                }
+            } else {
+                response = FilmService.NOMATCH;
+            }
         }
         return response;
     }

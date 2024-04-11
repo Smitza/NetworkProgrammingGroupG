@@ -10,6 +10,7 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class FilmServer {
@@ -68,7 +69,10 @@ public class FilmServer {
                 output.println(response);
                 output.flush();
             }
-        } catch (IOException e) {
+        } catch (NoSuchElementException e) {
+            System.out.println("The user sent an invalid request: ");
+            System.out.println(e.getMessage());
+        }catch (IOException e) {
             System.out.println("An IOException occurred when trying to communicate with: " + dataSocket.getInetAddress() + ":" + dataSocket.getPort());
             System.out.println(e.getMessage());
         }
@@ -77,7 +81,7 @@ public class FilmServer {
     private static String register(String[] components) {
         String response;
         if (components.length != 2) {
-            response = FilmService.REJECTED; // Invalid request
+            response = FilmService.REJECTED;
         } else {
             String username = components[1];
             String password = components[2];
@@ -86,7 +90,7 @@ public class FilmServer {
             if (registrationResult) {
                 response = FilmService.ADDED; // User registered successfully
             } else {
-                response = FilmService.REJECTED; // Registration failed (e.g., username already exists)
+                response = FilmService.REJECTED; // Registration failed (username already exists)
             }
         }
         return response;
@@ -113,7 +117,7 @@ public class FilmServer {
 
     private static String logout(String[] components) {
         String response;
-        if (components.length != 2) {
+        if (components.length != 1) {
             response = FilmService.REJECTED;
         } else {
             response = FilmService.LOGOUT;
@@ -159,39 +163,9 @@ public class FilmServer {
             String title = components[1];
             Film filmResult = filmManager.searchByTitle(title);
             if (filmResult != null) {
-                response = filmResult.getTitle() + FilmService.DELIMITER + filmResult.getGenre() + FilmService.DELIMITER + filmResult.getTotalRatings() + FilmService.DELIMITER + filmResult.getNumRatings();
+                response = filmResult.encode("%%");
             } else {
                 response = FilmService.NOMATCH;
-            }
-        }
-        return response;
-    }
-
-    private static String searchGenre(String[] components) {
-        String response = null;
-        if (components.length != 2) {
-            response = FilmService.INVALID;
-        } else {
-            String genre = components[1];
-            List<Film> resultList = filmManager.searchByGenre(genre);
-            if (!resultList.isEmpty()) {
-                for (Film filmResult : resultList) {
-                    response = filmResult.getTitle() + FilmService.DELIMITER + filmResult.getGenre() + FilmService.DELIMITER + filmResult.getTotalRatings() + FilmService.DELIMITER + filmResult.getNumRatings();
-                }
-                List<Film> filmResult = filmManager.searchByGenre(genre);
-                if (!filmResult.isEmpty()) {
-                    StringBuilder results = new StringBuilder();
-                    for (Film film : filmResult) {
-                        results.append(film.getTitle()).append(FilmService.DELIMITER)
-                                .append(film.getGenre()).append(FilmService.DELIMITER)
-                                .append(film.getTotalRatings()).append(FilmService.DELIMITER)
-                                .append(film.getNumRatings()).append(" ");
-
-                    }
-                    response = results.toString();
-                } else {
-                    response = FilmService.NOMATCH;
-                }
             }
         }
         return response;

@@ -82,4 +82,15 @@ public class Film {
                 '}';
     }
 
+    public String encode(String delimiter){
+        return this.title + delimiter + this.genre + delimiter + this.totalRatings + delimiter + this.numRatings;
+    }
+
+    public static Film decode(String encoded, String delimiter){
+        String [] components  = encoded.split(delimiter);
+        if(components.length != 2){
+            return null;
+        }
+        return new Film(components[0], components[1]);
+    }
 }

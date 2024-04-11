@@ -91,5 +91,21 @@ public class FilmManager {
 
     }
 
+    public String encode(String genre, String filmDelimiter, String filmComponentDelimiter){
+        if(films.isEmpty()){
+            return "";
+        }
+        String encoded = "";
+        for (Film film : films) {
+            if (film.getGenre().equalsIgnoreCase(genre)) {
+                encoded += film.encode(filmComponentDelimiter) + filmDelimiter;
+            }
+        }
+        //Remove last delimiter, (Couldn't figure out how to search genres without having an extra delimiter)
+        if (!encoded.isEmpty()) {
+            encoded = encoded.substring(0, encoded.length() - filmDelimiter.length());
+        }
+        return encoded;
+    }
 
 }

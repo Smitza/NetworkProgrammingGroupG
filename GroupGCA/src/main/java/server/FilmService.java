@@ -12,6 +12,11 @@ public class FilmService {
     public static final String RATE = "rate";
     public static final String SEARCHNAME = "searchByName";
     public static final String SEARCHGENRE = "searchByGenre";
+    public static final String EXIT = "exit";
+    public static final String ADD = "add";
+    public static final String REMOVE = "remove";
+    public static final String SHUTDOWN = "shutdown";
+
 
     // Protocol Responses
     public static final String ADDED = "ADDED";
@@ -21,10 +26,16 @@ public class FilmService {
     public static final String LOGOUTOUT = "LOGGED_OUT";
     public static final String FAILED = "FAILED";
     public static final String SUCCESS = "SUCCESS";
+    public static final String EXISTS = "EXISTS";
+    public static final String REMOVED = "REMOVED";
+    public static final String NOTFOUND = "NOT_FOUND";
     public static final String INVALIDRATING = "INVALID_RATING_SUPPLIED";
     public static final String NOLOGIN = "NOT_LOGGED_IN";
     public static final String NOMATCH = "NO_MATCH_FOUND";
     public static final String INVALID = "INVALID_REQUEST";
+    public static final String SHUTTINGDOWN = "SHUTTING_DOWN";
+    public static final String NOPERMS = "INSUFFICIENT_PERMISSIONS";
+    public static final String GOODBYE = "GOODBYE";
 
     // DELIMITER
     public static final String DELIMITER = "%%";

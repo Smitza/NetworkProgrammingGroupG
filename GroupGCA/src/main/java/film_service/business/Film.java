@@ -61,7 +61,7 @@ public class Film {
         if (numRatings == 0) {
             return 0; //Don't divide by 0 or the computer will explode
         }
-        return (double) totalRatings / numRatings;
+        return (double) numRatings / totalRatings;
     }
 
     @Override

@@ -31,13 +31,13 @@ public class UserManager {
         return check;
     }
 
-    public boolean authenticateUser(String username, String password) {
+    public User authenticateUser(String username, String password) {
         for (User user : userList) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return true;
+                return user;
             }
         }
-        return false;
+        return null;
     }
 
 
@@ -51,6 +51,8 @@ public class UserManager {
         userList.add(u3);
         User u4 = new User("JaketheKuza", "Yakuza23", true);
         userList.add(u4);
+        User u5 = new User("Admin", "admin", true);
+        userList.add(u5);
     }
 
 

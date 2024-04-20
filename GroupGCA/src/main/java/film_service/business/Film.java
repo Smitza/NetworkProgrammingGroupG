@@ -73,6 +73,11 @@ public class Film {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(title, genre, numRatings, totalRatings);
+    }
+
+    @Override
     public String toString() {
         return "Film{" +
                 "title='" + title + '\'' +

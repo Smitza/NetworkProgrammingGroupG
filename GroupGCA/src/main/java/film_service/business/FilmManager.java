@@ -14,7 +14,7 @@ public class FilmManager {
     public boolean addFilm(Film film) {
         // Check if a film with the same title already exists
         for (Film existingFilm : films) {
-            if (existingFilm.getTitle().equals(film.getTitle())) {
+            if (searchByTitle(existingFilm.getTitle()) != null) {
                 return false;
             }
         }
@@ -64,7 +64,7 @@ public class FilmManager {
 
     public boolean removeFilm(String title) {
         for (int i = 0; i < films.size(); i++) {
-            if (films.get(i).getTitle().equals(title)) {
+            if (searchByTitle(films.get(i).getTitle()) != null) {
                 films.remove(i); // Remove the film if found
                 return true;
             }

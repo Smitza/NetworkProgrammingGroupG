@@ -25,8 +25,60 @@ public class FilmClient {
                     String message = generateRequest(userInput);
                     output.println(message);
                     output.flush();
-
                     String response = input.nextLine();
+                    switch(response) {
+                        case FilmService.ADD:
+                            System.out.println("it had been added successfully");
+                            break;
+                        case FilmService.REJECTED:
+                            System.out.println("your item does not meet the criteria");
+                            break;
+                        case FilmService.SUCCESSADMIN:
+                            System.out.println("you have been logged in as an admin ");
+                            break;
+                        case FilmService.SUCCESSUSER:
+                            System.out.println("you have been logged in as a user");
+                            break;
+                        case FilmService.LOGOUTOUT:
+                            System.out.println("you have been logged out succesfully");
+                            break;
+                        case FilmService.FAILED:
+                            System.out.println("you have failed to login in succesfully");
+                            break;
+                        case FilmService.SUCCESS:
+                            System.out.println("you have been logged in succesfully ");
+                            break;
+                        case FilmService.EXIT:
+                            System.out.println("it does  currently exist");
+                            break;
+                        case FilmService.REMOVE:
+                            System.out.println("the current item have been removed");
+                            break;
+                        case FilmService.NOTFOUND:
+                            System.out.println("the current item was not found");
+                            break;
+                        case FilmService.INVALIDRATING:
+                            System.out.println("you have entered an invalid rating");
+                            break;
+                        case FilmService.NOLOGIN:
+                            System.out.println("there is no results in the login");
+                            break;
+                        case FilmService.NOMATCH:
+                            System.out.println("there is no match that is added into it ");
+                            break;
+                        case FilmService.INVALID:
+                            System.out.println("the criteria added is invalid");
+                            break;
+                        case FilmService.SHUTDOWN:
+                            System.out.println("you have successfully shut down");
+                            break;
+                        case FilmService.NOPERMS:
+                            System.out.println("you do not have permissions to access");
+                            break;
+                        case FilmService.GOODBYE:
+                            System.out.println("you have succesfully left the section ");
+                            break;
+                    }
                     System.out.println("Received: " +response);
                     if(response.equals(FilmService.GOODBYE)){
                         validSession = false;

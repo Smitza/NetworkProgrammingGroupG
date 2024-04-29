@@ -151,7 +151,6 @@ public class FilmClientHandler implements Runnable{
             String title = components[1];
             try {
                 int rating = Integer.parseInt(components[2]);
-                synchronized(filmManager) {
                     if (currentUser != null) {
                         boolean rated = filmManager.rateFilm(title, rating);
                         if (rated) {
@@ -162,7 +161,6 @@ public class FilmClientHandler implements Runnable{
                     } else {
                         response = FilmService.NOLOGIN;
                     }
-                }
             } catch (NumberFormatException e) {
                 response = FilmService.INVALIDRATING;
             }
@@ -192,7 +190,6 @@ public class FilmClientHandler implements Runnable{
         if (components.length != 2) {
             response = FilmService.INVALID;
         } else {
-            synchronized(filmManager) {
             String genre = components[1];
             List<Film> resultList = filmManager.searchByGenre(genre);
             if (!resultList.isEmpty()) {
@@ -203,7 +200,6 @@ public class FilmClientHandler implements Runnable{
             }
 
             }
-        }
         return response;
     }
 

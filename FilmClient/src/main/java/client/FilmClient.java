@@ -9,10 +9,6 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class FilmClient {
-    static String rateTitle = "";
-    static String removeTitle = "";
-    static String addTitle = "";
-    static String searchTitle = "";
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
         try (Socket dataSocket = new Socket(FilmService.HOST, FilmService.PORT)) {
@@ -89,10 +85,10 @@ public class FilmClient {
                         case "6":
                             if (isLoggedIn) {
                                 System.out.println("Title of film to rate: ");
-                                rateTitle = userInput.nextLine();
+                                String filmTitle = userInput.nextLine();
                                 System.out.println("Rating out of 10: ");
                                 String rating = userInput.nextLine();
-                                request = FilmService.RATE + FilmService.DELIMITER + rateTitle + FilmService.DELIMITER + rating;
+                                request = FilmService.RATE + FilmService.DELIMITER + filmTitle + FilmService.DELIMITER + rating;
                             } else {
                                 System.out.println("Please select one of the options");
                                 System.out.println("=========================================================");
@@ -109,7 +105,7 @@ public class FilmClient {
                         case "8":
                             if (isAdmin) {
                                 System.out.println("Enter title of Film: ");
-                                addTitle = userInput.nextLine();
+                                String addTitle = userInput.nextLine();
                                 System.out.println("Enter genre of Film: ");
                                 String filmGenre = userInput.nextLine();
                                 request = FilmService.ADD + FilmService.DELIMITER + addTitle + FilmService.DELIMITER + filmGenre;
@@ -121,7 +117,7 @@ public class FilmClient {
                         case "9":
                             if (isAdmin) {
                                 System.out.println("Enter title of Film to remove: ");
-                                removeTitle = userInput.nextLine();
+                                String removeTitle = userInput.nextLine();
                                 request = FilmService.REMOVE + FilmService.DELIMITER + removeTitle;
                             } else {
                                 System.out.println("Please select one of the options");
@@ -186,9 +182,6 @@ public class FilmClient {
             case FilmService.FAILED:
                 System.out.println("Login failed. Please try again.");
                 break;
-            case FilmService.SUCCESS:
-                System.out.println(rateTitle +" was successfully rated.");
-                break;
             case FilmService.LOGOUTOUT:
                 System.out.println("Logged out successfully!");
                 break;
@@ -199,19 +192,19 @@ public class FilmClient {
                 System.out.println("You are not logged in.");
                 break;
             case FilmService.NOMATCH:
-                System.out.println("No matches found for: " +searchTitle);
+                System.out.println("No matches found.");
                 break;
             case FilmService.GOODBYE:
                 System.out.println("Goodbye!");
                 break;
             case FilmService.REMOVED:
-                System.out.println(removeTitle + " was successfully removed.");
+                System.out.println("Film removed successfully.");
                 break;
             case FilmService.NOTFOUND:
-                System.out.println(removeTitle +" was not found, or you are not an admin!");
+                System.out.println("Film not found, or you are not an admin!");
                 break;
             case FilmService.EXISTS:
-                System.out.println(addTitle +" already exists!");
+                System.out.println("Film already exists!");
                 break;
             case FilmService.NOPERMS:
                 System.out.println("Insufficient permissions!");

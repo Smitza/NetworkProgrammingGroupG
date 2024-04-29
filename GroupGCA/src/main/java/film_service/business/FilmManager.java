@@ -13,9 +13,11 @@ public class FilmManager {
 
     public boolean addFilm(Film film) {
         // Check if a film with the same title already exists
-        for (Film existingFilm : films) {
-            if (searchByTitle(existingFilm.getTitle()) != null) {
-                return false;
+        synchronized (films) {
+            for (Film existingFilm : films) {
+                if (searchByTitle(existingFilm.getTitle()) != null) {
+                    return false;
+                }
             }
         }
         // Add the film to the list
@@ -55,18 +57,22 @@ public class FilmManager {
     }
 
     public double getFilmRating(String title) {
-        Film film = searchByTitle(title);
-        if (film != null) {
-            return film.calculateRating();
+        synchronized (films) {
+            Film film = searchByTitle(title);
+            if (film != null) {
+                return film.calculateRating();
+            }
+            return 0;
         }
-        return 0;
     }
 
     public boolean removeFilm(String title) {
-        for (int i = 0; i < films.size(); i++) {
-            if (searchByTitle(films.get(i).getTitle()) != null) {
-                films.remove(i); // Remove the film if found
-                return true;
+        synchronized (films) {
+            for (int i = 0; i < films.size(); i++) {
+                if (searchByTitle(films.get(i).getTitle()) != null) {
+                    films.remove(i); // Remove the film if found
+                    return true;
+                }
             }
         }
         return false;

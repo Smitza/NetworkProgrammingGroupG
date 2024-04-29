@@ -10,13 +10,15 @@ public class UserManager {
 
     public boolean addUser(String username, String password, boolean isAdmin) {
 
-        User name = new User(username, password, isAdmin);
+        synchronized (userList) {
+            User name = new User(username, password, isAdmin);
 
-        if (userList.contains(name)) {
-            return false;
-        } else {
-            userList.add(name);
-            return true;
+            if (userList.contains(name)) {
+                return false;
+            } else {
+                userList.add(name);
+                return true;
+            }
         }
     }
 

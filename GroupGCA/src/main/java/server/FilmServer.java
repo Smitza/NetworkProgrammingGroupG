@@ -8,15 +8,18 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 public class FilmServer {
-    private static final UserManager userManager = new UserManager();
-    private static final FilmManager filmManager = new FilmManager();
+    private static FilmManager filmManager;
+    private static UserManager userManager;
+
     public static void main(String[] args) {
         try (ServerSocket listeningSocket = new ServerSocket(FilmService.PORT)) {
+            userManager = new UserManager();
+            filmManager = new FilmManager();
             while (true) {
                 Socket dataSocket = listeningSocket.accept();
-                FilmClientHandler clientHandler = new FilmClientHandler(dataSocket,userManager, filmManager);
-                Thread worker = new Thread(clientHandler);
-                worker.start();
+                FilmClientHandler clientHandler = new FilmClientHandler(dataSocket, userManager, filmManager);
+                Thread wrapper = new Thread(clientHandler);
+                wrapper.start();
             }
         } catch (BindException e) {
             System.out.println("BindException occurred when attempting to bind to port " + FilmService.PORT);
@@ -26,8 +29,4 @@ public class FilmServer {
             System.out.println(e.getMessage());
         }
     }
-
-
-
-
 }

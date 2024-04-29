@@ -54,6 +54,12 @@ public class FilmClientHandler implements Runnable{
                         case (FilmService.SEARCHGENRE):
                             response = searchGenre(components);
                             break;
+                        case (FilmService.RANDOM_FILM):
+                            response = getRandomFilm(components);
+                            break;
+                        case (FilmService.RANDOM_GENRE_FILM):
+                            response = getRandomFilmInGenre(components);
+                            break;
                         case (FilmService.ADD):
                             response = addFilm(components);
                             break;
@@ -202,6 +208,39 @@ public class FilmClientHandler implements Runnable{
             }
         return response;
     }
+
+    private String getRandomFilm(String[] components) {
+        String response;
+        if (components.length != 1) {
+            response = FilmService.REJECTED;
+        } else {
+            Film randomFilm = filmManager.getRandomFilm();
+            if (randomFilm != null) {
+                return randomFilm.encode("%%");
+            } else {
+                response = FilmService.NOMATCH;
+            }
+        }
+        return response;
+    }
+
+    private String getRandomFilmInGenre(String[] components) {
+        String response;
+        if (components.length != 2) {
+            response = FilmService.REJECTED;
+        } else {
+            String genre = components[1];
+            Film randomFilm = filmManager.getRandomFilmInGenre(genre);
+            if (randomFilm != null) {
+                return randomFilm.encode("%%");
+            } else {
+                response = FilmService.NOFILMGENRE;
+            }
+        }
+        return response;
+    }
+
+
 
     private String addFilm(String[] components) {
         String response;

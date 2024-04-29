@@ -16,6 +16,9 @@ public class FilmService {
     public static final String ADD = "add";
     public static final String REMOVE = "remove";
     public static final String SHUTDOWN = "shutdown";
+    public static final String RANDOM_FILM = "randomFilm";
+
+    public static final String RANDOM_GENRE_FILM = "randomGenreFilm";
 
 
     // Protocol Responses
@@ -36,6 +39,7 @@ public class FilmService {
     public static final String SHUTTINGDOWN = "SHUTTING_DOWN";
     public static final String NOPERMS = "INSUFFICIENT_PERMISSIONS";
     public static final String GOODBYE = "GOODBYE";
+    public static final String NOFILMGENRE = "NO_FILMS_FOUND_FOR_GENRE";
 
     // DELIMITER
     public static final String DELIMITER = "%%";

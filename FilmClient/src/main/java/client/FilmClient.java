@@ -27,6 +27,8 @@ public class FilmClient {
                         System.out.println("3. Search film by name");
                         System.out.println("4. Search film by genre");
                         System.out.println("5. Exit");
+                        System.out.println("11. Show a random Film");
+                        System.out.println("12. Search a genre for a random Film");
                     } else {
                         System.out.println("Enter your choice:");
                         System.out.println("3. Search film by name");
@@ -34,6 +36,8 @@ public class FilmClient {
                         System.out.println("5. Exit");
                         System.out.println("6. Rate a film");
                         System.out.println("7. Logout");
+                        System.out.println("11. Show a random Film");
+                        System.out.println("12. Search a genre for a random Film");
                         if (isAdmin) {
                             System.out.println("8. Add a film (admin only)");
                             System.out.println("9. Remove a film (admin only)");
@@ -137,6 +141,14 @@ public class FilmClient {
                             System.out.println("Please select one of the options");
                             System.out.println("=========================================================");
                             continue;
+                        case "11":
+                            request = FilmService.RANDOM_FILM;
+                            break;
+                        case "12":
+                            System.out.println("Enter genre to search: ");
+                            String searchGenreRnd = userInput.nextLine();
+                            request = FilmService.RANDOM_GENRE_FILM + FilmService.DELIMITER + searchGenreRnd;
+                            break;
                     }
                     output.println(request);
                     output.flush();
@@ -209,11 +221,11 @@ public class FilmClient {
             case FilmService.NOPERMS:
                 System.out.println("Insufficient permissions!");
                 break;
-
             case "":
                 break;
             default:
-                System.out.println("Invalid response from the server.");
+                System.out.println(response);
+                break;
         }
         return false;
     }

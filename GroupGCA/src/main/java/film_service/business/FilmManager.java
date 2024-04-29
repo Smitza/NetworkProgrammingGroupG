@@ -78,6 +78,30 @@ public class FilmManager {
         return false;
     }
 
+    /**
+     *
+     *
+     * @return Returns a random film from the filmslist
+     */
+    public Film getRandomFilm() {
+        if (films.isEmpty()) {
+            return null;
+        }
+        int randomIndex = (int) (Math.random() * films.size());
+        return films.get(randomIndex);
+    }
+
+    public Film getRandomFilmInGenre(String genre) {
+        List<Film> filmsInGenre = searchByGenre(genre);
+        if (!filmsInGenre.isEmpty()) {
+            int randomIndex = (int) (Math.random() * filmsInGenre.size());
+            return filmsInGenre.get(randomIndex);
+        } else {
+            return null;
+        }
+    }
+
+
     private void bootstrapFilmList(){
         Film f1 = new Film("Kung Fu Panda 4", "Animated");
         f1.addRating(6);

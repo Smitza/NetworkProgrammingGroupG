@@ -245,4 +245,37 @@ public class FilmClientHandler implements Runnable{
         }
         return response;
     }
+
+    private String searchGenreHighestRating(String[] components) {
+        String response;
+        if (components.length != 2) {
+            response = FilmService.INVALID;
+        } else {
+            String genre = components[1];
+            List<Film> resultList = filmManager.searchByGenre(genre);
+            if (!resultList.isEmpty()) {
+                Film highestRatedFilm = findHighestRatedFilm(resultList);
+                if (highestRatedFilm != null) {
+                    response = filmManager.encode(highestRatedFilm.getTitle() + " - Rating: " + highestRatedFilm.getTotalRatings(), "~~", "%%");
+                } else {
+                    response = "No films found in the genre " + genre;
+                }
+            } else {
+                response = FilmService.NOMATCH;
+            }
+        }
+        return response;
+    }
+
+    private Film findHighestRatedFilm(List<Film> films) {
+        Film highestRated = null;
+        int maxRating = Integer.MIN_VALUE;
+        for (Film film : films) {
+            if (film.getTotalRatings() > maxRating) {
+                highestRated = film;
+                maxRating = film.getTotalRatings();
+            }
+        }
+        return highestRated;
+    }
 }

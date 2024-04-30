@@ -45,25 +45,26 @@ public class FilmManager {
     }
 
     public boolean rateFilm(String title, int rating) {
-        Film film = searchByTitle(title);
-        boolean rated;
-        if (film != null) {
-            film.addRating(rating); // Add rating to the film if found
-            rated = true;
-        } else {
-            rated = false;
+
+            Film film = searchByTitle(title);
+            boolean rated;
+        synchronized (films) {
+            if (film != null) {
+                film.addRating(rating); // Add rating to the film if found
+                rated = true;
+            } else {
+                rated = false;
+            }
         }
         return  rated;
     }
 
     public double getFilmRating(String title) {
-        synchronized (films) {
             Film film = searchByTitle(title);
             if (film != null) {
                 return film.calculateRating();
             }
             return 0;
-        }
     }
 
     public boolean removeFilm(String title) {

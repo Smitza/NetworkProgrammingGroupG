@@ -29,6 +29,7 @@ public class FilmClient {
                         System.out.println("5. Exit");
                         System.out.println("11. Show a random Film");
                         System.out.println("12. Search a genre for a random Film");
+                        System.out.println("13. Search a genre for the highest rated film");
                     } else {
                         System.out.println("Enter your choice:");
                         System.out.println("3. Search film by name");
@@ -38,6 +39,7 @@ public class FilmClient {
                         System.out.println("7. Logout");
                         System.out.println("11. Show a random Film");
                         System.out.println("12. Search a genre for a random Film");
+                        System.out.println("13. Search a genre for the highest rated film");
                         if (isAdmin) {
                             System.out.println("8. Add a film (admin only)");
                             System.out.println("9. Remove a film (admin only)");
@@ -149,6 +151,11 @@ public class FilmClient {
                             String searchGenreRnd = userInput.nextLine();
                             request = FilmService.RANDOM_GENRE_FILM + FilmService.DELIMITER + searchGenreRnd;
                             break;
+                        case "13":
+                            System.out.println("Enter genre to search: ");
+                            String searchgenrehigest = userInput.nextLine();
+                            request = FilmService.HIGHEST_GENRE + FilmService.DELIMITER + searchgenrehigest;
+                            break;
                     }
                     output.println(request);
                     output.flush();
@@ -220,6 +227,9 @@ public class FilmClient {
                 break;
             case FilmService.NOPERMS:
                 System.out.println("Insufficient permissions!");
+                break;
+            case FilmService.NOFILMGENRE:
+                System.out.println("No genre found found!!!");
                 break;
             case "":
                 break;

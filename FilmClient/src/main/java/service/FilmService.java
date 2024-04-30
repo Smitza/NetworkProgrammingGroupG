@@ -19,6 +19,7 @@ public class FilmService {
     public static final String RANDOM_FILM = "randomFilm";
 
     public static final String RANDOM_GENRE_FILM = "randomGenreFilm";
+    public static  final  String HIGHEST_GENRE = "highestGenre";
 
 
     // Protocol Responses

@@ -60,6 +60,9 @@ public class FilmClientHandler implements Runnable{
                         case (FilmService.RANDOM_GENRE_FILM):
                             response = getRandomFilmInGenre(components);
                             break;
+                        case (FilmService.HIGHEST_GENRE):
+                            response = searchGenreHighestRating(components);
+                            break;
                         case (FilmService.ADD):
                             response = addFilm(components);
                             break;
@@ -295,9 +298,9 @@ public class FilmClientHandler implements Runnable{
             if (!resultList.isEmpty()) {
                 Film highestRatedFilm = findHighestRatedFilm(resultList);
                 if (highestRatedFilm != null) {
-                    response = filmManager.encode(highestRatedFilm.getTitle() + " - Rating: " + highestRatedFilm.getTotalRatings(), "~~", "%%");
+                    response =  highestRatedFilm.encode("%%");
                 } else {
-                    response = "No films found in the genre " + genre;
+                    response = FilmService.NOFILMGENRE;
                 }
             } else {
                 response = FilmService.NOMATCH;

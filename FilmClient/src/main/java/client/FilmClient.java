@@ -224,7 +224,16 @@ public class FilmClient {
             case "":
                 break;
             default:
-                System.out.println(response);
+                String [] responseComponents = response.split(FilmService.DELIMITER);
+                if(responseComponents.length == 4){
+                    System.out.println("Film received:");
+                    System.out.println("\"" + responseComponents[0] + "\"");
+                    System.out.println("\tGenre - " + responseComponents[1] + "\"");
+                    System.out.println("\tTotal Score - " + responseComponents[2] + "\"");
+                    System.out.println("\tNo of ratings - " + responseComponents[3]);
+                }else{
+                    System.out.println("Unrecognised response detected. Please try again later.");
+                }
                 break;
         }
         return false;
